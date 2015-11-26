@@ -1,0 +1,137 @@
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class my_cal extends JFrame implements ActionListener {
+	private static final long serialVersionUID = -169068472193786457L;
+	int i, j, k, m, n, result;
+	int a = 0;
+	int b = 0;
+	boolean FirstDigit = true;
+	double num = 0.0;
+    String equ = "=";
+    boolean flag = false;
+    JTextField[] cal_text = new JTextField[5];
+    
+    private final String[] str_button = { "+", "-", "*", "/",
+            "OK" };
+    JButton[] cal_buttons = new JButton[str_button.length];
+    JButton reset = new JButton("CLEAR");
+    public my_cal() {
+        super("Calculator");
+        JPanel panel1 = new JPanel(new GridLayout(1, 5));
+        for (i = 0; i < str_button.length; i++) {
+            cal_buttons[i] = new JButton(str_button[i]);
+            panel1.add(cal_buttons[i]);
+        }
+        
+        JPanel panel2 = new JPanel(new BorderLayout());
+        panel2.add("Center", reset);
+        
+        JPanel panel3 = new JPanel(new GridLayout(1, 5));
+        String[] texts = { "", "", "", "      =",
+        "" };
+        for (i = 0; i < 5; i++) {
+        	cal_text[i] = new JTextField(texts[i]);
+        	panel3.add(cal_text[i]);
+        }
+        
+        
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add("North", panel2);
+        getContentPane().add("Center", panel3);
+        getContentPane().add("South", panel1);
+        for (i = 0; i < str_button.length; i++)
+             cal_buttons[i].addActionListener(this);
+        reset.addActionListener(this);
+        addWindowListener(new close_my_window());
+        setSize(300, 300);
+        setVisible(true);
+        pack();
+     }  
+   
+    public void watch_my_action(ActionEvent e) {
+        
+     }
+    
+    
+
+     public void do_Operator(String key) {
+        if (key.equals("+")) {
+            num = 1;
+            cal_text[1].setText("  +");
+        }
+        else if (key.equals("-")) {
+           num = 2;
+            cal_text[1].setText("  -");
+        }
+        else if (key.equals("*")) {
+            num = 3;
+            cal_text[1].setText("  *");
+        }
+        else if (key.equals("/")) {
+            num = 4;
+            cal_text[1].setText("  /");
+        }
+       
+        equ = key;
+        FirstDigit = true;
+     }
+    
+	private class close_my_window extends WindowAdapter {
+	       public void windowClosing(WindowEvent we) {
+	           System.exit(0);
+	       }
+	    }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (cal_text[0].getText() != "")
+        a = Integer.parseInt(cal_text[0].getText());
+		if (flag && cal_text[2].getText() != "")
+        b = Integer.parseInt(cal_text[2].getText());
+        if (e.getActionCommand().equals("OK")) {
+        	if (num == 1)
+            	cal_text[4].setText(String.valueOf(a+b));
+            	else if (num == 2)
+            		cal_text[4].setText(String.valueOf(a-b));
+            	else if (num == 3)
+            		cal_text[4].setText(String.valueOf(a*b));
+            	else if (num == 4) {
+            		if (b != 0)
+            		cal_text[4].setText(String.valueOf(a/b));
+            	}
+        } else if (e.getActionCommand().equals("CLEAR")) {
+        	flag = false;
+        	cal_text[0].setText("");
+        	cal_text[1].setText("");
+        	cal_text[2].setText("");
+        	cal_text[4].setText("");
+        } else if (e.getActionCommand().equals("+")) {
+        	num = 1;
+            cal_text[1].setText("     +");
+            flag = true;
+        } else if (e.getActionCommand().equals("-")) {
+        	num = 2;
+            cal_text[1].setText("     -");
+            flag = true;
+        } else if (e.getActionCommand().equals("*")) {
+        	num = 3;
+            cal_text[1].setText("     *");
+            flag = true;
+        } else if (e.getActionCommand().equals("/")) {
+        	num = 4;
+            cal_text[1].setText("     /");
+            flag = true;
+        } 
+	}
+	
+	public static void main(String[] args) {
+
+	       new my_cal();
+
+	    }
+
+}
