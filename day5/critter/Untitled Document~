@@ -1,0 +1,291 @@
+http://jingyan.baidu.com/article/9f63fb91c58387c8400f0eef.html
+
+http://blog.sina.com.cn/s/blog_79ce0d8f0101ggyi.html
+http://blog.csdn.net/alex_sym/article/details/7401287
+http://www.cnblogs.com/huozhicheng/archive/2010/04/08/2533199.html
+http://forum.ubuntu.org.cn/viewtopic.php?t=183803
+http://www.linuxidc.com/Linux/2012-06/63014.htm
+
+ant goujian helloworld http://www.blogjava.net/xiangjava/archive/2010/08/10/328455.html
+
+javac -classpath .:/home/Administrator/Desktop/gridworld/Gridworld/GridWorldCode/gridworld.jar /home/Administrator/Desktop/gridworld/Gridworld/GridWorldCode/projects/firstProject/BugRunner.java
+
+java -classpath .:/home/Administrator/Desktop/gridworld/Gridworld/GridWorldCode/gridworld.jar BugRunner
+
+Administrator@vinzor-virtual-machine:~/Desktop/junit$ javac -classpath .:/home/Administrator/Desktop/junit/junit4.9/junit-4.9.jar HelloWorldTest.java
+Administrator@vinzor-virtual-machine:~/Desktop/junit$ java -classpath .:/home/Administrator/Desktop/junit/junit4.9/junit-4.9.jar -ea org.junit.runner.JUnitCore HelloWorldTest
+JUnit version 4.9
+.
+Time: 0.009
+
+OK (1 test)
+
+~/Desktop/test_jumper/GridWorldCode/projects/firstProject$ javac -classpath .:/home/le/Desktop/test_jumper/GridWorldCode/dist/GridWorldCode/gridworld.jar JumperRunner.java
+java -classpath .:/home/le/Desktop/test_jumper/GridWorldCode/dist/GridWorldCode/gridworld.jar JumperRunner
+
+
+ANT_HOME=/opt/apache-ant-1.9.6
+JAVA_HOME=/usr/lib/jvm/jdk1.7.0_45
+JRE_HOME=/usr/lib/jvm/jdk1.7.0_45/jre
+CLASSPATH=.:/usr/lib/jvm/jdk1.7.0_45/lib:/usr/lib/jvm/jdk1.7.0_45/jre/lib
+PATH="/usr/lib/jvm/jdk1.7.0_45/bin:/opt/apache-ant-1.9.6/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
+
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class my_cal extends JFrame implements ActionListener {
+	private static final long serialVersionUID = -169068472193786457L;
+	int i, j, k, m, n;
+	boolean FirstDigit = true;
+	double num = 0.0;
+    String equ = "=";
+	
+    private final String[] str_button = { "1", "2", "3", "/", "4", "5", "6", "*", "7",
+           "8", "9", "-", ".", "0", "=", "+" };
+    JButton[] cal_buttons = new JButton[str_button.length];
+    JButton reset = new JButton("CLEAR");
+    JTextField display = new JTextField("0");
+    
+    public my_cal() {
+        super("Calculator");
+        JPanel panel1 = new JPanel(new GridLayout(4, 4));
+        for (i = 0; i < str_button.length; i++) {
+            cal_buttons[i] = new JButton(str_button[i]);
+            panel1.add(cal_buttons[i]);
+        }
+        
+        JPanel panel2 = new JPanel(new BorderLayout());
+        panel2.add("Center", display);
+        panel2.add("East", reset);
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add("North", panel2);
+        getContentPane().add("Center", panel1);
+        
+        for (i = 0; i < str_button.length; i++)
+             cal_buttons[i].addActionListener(this);
+        reset.addActionListener(this);
+        display.addActionListener(this);
+        addWindowListener(new close_my_window());
+        setSize(1600, 1600);
+        setVisible(true);
+        pack();
+     }  
+   
+    public void watch_my_action(ActionEvent e) {
+        
+     }
+    
+    public void do_Number(String key) {
+        if (FirstDigit)
+            display.setText(key);
+        else if ((key.equals(".")) && (display.getText().indexOf(".") < 0))
+            display.setText(display.getText() + ".");
+        else if (!key.equals("."))
+            display.setText(display.getText() + key);
+        FirstDigit = false;
+     }
+
+     public void do_Operator(String key) {
+        if (equ.equals("+"))
+            num += Double.valueOf(display.getText());
+        else if (equ.equals("-"))
+            num -= Double.valueOf(display.getText());
+        else if (equ.equals("*"))
+            num *= Double.valueOf(display.getText());
+        else if (equ.equals("/"))
+            num /= Double.valueOf(display.getText());
+        else if (equ.equals("="))
+            num = Double.valueOf(display.getText());
+        display.setText(String.valueOf(num));
+        equ = key;
+        FirstDigit = true;
+     }
+    
+	private class close_my_window extends WindowAdapter {
+	       public void windowClosing(WindowEvent we) {
+	           System.exit(0);
+	       }
+	    }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object target = e.getSource();
+        String label = e.getActionCommand();
+        if (target == reset) {
+        	display.setText("0");
+            FirstDigit = true;
+            equ = "=";
+        }
+        else if ("0123456789.".indexOf(label) > 0)
+            do_Number(label);
+        else
+            do_Operator(label);
+	}
+	
+	public static void main(String[] args) {
+
+	       new my_cal();
+
+	    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class my_cal extends JFrame implements ActionListener {
+	private static final long serialVersionUID = -169068472193786457L;
+	int i, j, k, m, n, result;
+	int a = 0;
+	int b = 0;
+	boolean FirstDigit = true;
+	double num = 0.0;
+    String equ = "=";
+    boolean flag = false;
+    JTextField[] cal_text = new JTextField[5];
+    
+    private final String[] str_button = { "+", "-", "*", "/",
+            "OK" };
+    JButton[] cal_buttons = new JButton[str_button.length];
+    JButton reset = new JButton("CLEAR");
+    public my_cal() {
+        super("Calculator");
+        JPanel panel1 = new JPanel(new GridLayout(1, 5));
+        for (i = 0; i < str_button.length; i++) {
+            cal_buttons[i] = new JButton(str_button[i]);
+            panel1.add(cal_buttons[i]);
+        }
+        
+        JPanel panel2 = new JPanel(new BorderLayout());
+        panel2.add("Center", reset);
+        
+        JPanel panel3 = new JPanel(new GridLayout(1, 5));
+        String[] texts = { "", "", "", "    =",
+        "" };
+        for (i = 0; i < 5; i++) {
+        	cal_text[i] = new JTextField(texts[i]);
+        	panel3.add(cal_text[i]);
+        }
+        
+        
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add("North", panel2);
+        getContentPane().add("Center", panel3);
+        getContentPane().add("South", panel1);
+        for (i = 0; i < str_button.length; i++)
+             cal_buttons[i].addActionListener(this);
+        reset.addActionListener(this);
+        addWindowListener(new close_my_window());
+        setSize(1600, 1600);
+        setVisible(true);
+        pack();
+     }  
+   
+    public void watch_my_action(ActionEvent e) {
+        
+     }
+    
+    
+
+     public void do_Operator(String key) {
+        if (key.equals("+")) {
+            num = 1;
+            cal_text[1].setText("  +");
+        }
+        else if (key.equals("-")) {
+           num = 2;
+            cal_text[1].setText("  -");
+        }
+        else if (key.equals("*")) {
+            num = 3;
+            cal_text[1].setText("  *");
+        }
+        else if (key.equals("/")) {
+            num = 4;
+            cal_text[1].setText("  /");
+        }
+       
+        equ = key;
+        FirstDigit = true;
+     }
+    
+	private class close_my_window extends WindowAdapter {
+	       public void windowClosing(WindowEvent we) {
+	           System.exit(0);
+	       }
+	    }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (cal_text[0].getText() != "")
+        a = Integer.parseInt(cal_text[0].getText());
+		if (flag && cal_text[2].getText() != "")
+        b = Integer.parseInt(cal_text[2].getText());
+        if (e.getActionCommand().equals("OK")) {
+        	if (num == 1)
+            	cal_text[4].setText(String.valueOf(a+b));
+            	else if (num == 2)
+            		cal_text[4].setText(String.valueOf(a-b));
+            	else if (num == 3)
+            		cal_text[4].setText(String.valueOf(a*b));
+            	else if (num == 4) {
+            		if (b != 0)
+            		cal_text[4].setText(String.valueOf(a/b));
+            	}
+        } else if (e.getActionCommand().equals("CLEAR")) {
+        	flag = false;
+        	cal_text[0].setText("");
+        	cal_text[1].setText("");
+        	cal_text[2].setText("");
+        	cal_text[4].setText("");
+        } else if (e.getActionCommand().equals("+")) {
+        	num = 1;
+            cal_text[1].setText("  +");
+            flag = true;
+        } else if (e.getActionCommand().equals("-")) {
+        	num = 2;
+            cal_text[1].setText("  -");
+            flag = true;
+        } else if (e.getActionCommand().equals("*")) {
+        	num = 3;
+            cal_text[2].setText("  *");
+            flag = true;
+        } else if (e.getActionCommand().equals("/")) {
+        	num = 4;
+            cal_text[3].setText("  /");
+            flag = true;
+        } 
+	}
+	
+	public static void main(String[] args) {
+
+	       new my_cal();
+
+	    }
+
+}
