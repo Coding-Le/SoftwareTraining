@@ -1,0 +1,86 @@
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+
+import javax.imageio.ImageIO;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
+import static org.junit.Assert.*;
+
+import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.HeadlessException;
+import java.awt.Image;
+import java.awt.Transparency;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import javax.swing.ImageIcon;
+public class myIImageIOTest {
+
+	@Before
+	public void setUp() throws Exception {
+	}
+	
+	@Test
+	public void testMyRead() throws IOException {
+		myIImageIO temp = new myIImageIO();
+		Image myimage =  temp.myRead("/home/Administrator/Desktop/day7/bmptest/1.bmp");
+		BufferedImage mybufferedimage = new BufferedImage( myimage.getWidth(null), myimage.getHeight(null),BufferedImage.TYPE_INT_RGB);
+		Graphics g = my_bufferedimage.createGraphics();
+	    // Paint the image onto the buffered image
+	     g.drawImage(myimage, 0, 0, null);
+	     g.dispose();
+		//File my_file = new File("/home/Administrator/Desktop/day7/bmptest/1.bmp");
+		BufferedImage hisimage = ImageIO.read(new FileInputStream("/home/Administrator/Desktop/day7/bmptest/1.bmp"));
+		assertEquals(mybufferedimage.getHeight(null), hisimage.getHeight(null));
+	    assertEquals(mybufferedimage.getWidth(null), hisimage.getWidth(null));
+	    assertEquals(mybufferedimage.getMinX(), hisimage.getMinX());
+	    assertEquals(mybufferedimage.getMinY(), hisimage.getMinY());
+	    int myheight = myimage.getHeight(null);
+	    int mywidth = myimage.getWidth(null);
+	    int count = 0;
+	    for (int i = 0; i < myheight; i++) {
+	    	for (int j = 0; j < mywidth; j++) {
+	    			assertEquals(mybufferedimage.getRGB(i, j), hisimage.getRGB(i, j));
+	    	}
+	    }
+	    System.out.print(count);
+	}
+
+	@Test
+	public void testMyWrite() throws IOException {
+		File myfile = new File("/home/Administrator/Desktop/day7/bmptest/1.bmp");
+		BufferedImage hisimage = ImageIO.read(myfile);
+		myIImageIO temp = new myIImageIO();
+		BufferedImage myimage =  (BufferedImage) temp.myWrite(hisimage, "/home/Administrator/Desktop/pic");
+		assertEquals(myimage.getHeight(null), hisimage.getHeight(null));
+	    assertEquals(myimage.getWidth(null), hisimage.getWidth(null));
+	    assertEquals(myimage.getMinX(), hisimage.getMinX());
+	    assertEquals(myimage.getMinY(), hisimage.getMinY());
+	    int myheight = myimage.getHeight(null);
+	    int mywidth = myimage.getWidth(null);
+	    for (int i = myimage.getMinX(); i < myheight; i++) {
+	    	for (int j = myimage.getMinY(); j < mywidth; j++) {
+	    		assertEquals(myimage.getRGB(i, j), hisimage.getRGB(i, j));
+	    	}
+	    }
+	}
+
+}
